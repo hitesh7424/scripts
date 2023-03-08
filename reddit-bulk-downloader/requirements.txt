@@ -2,3 +2,4 @@ requests
 time
 re
 yt_dlp
+# ffmpeg also required if it gets error and add to environment variable

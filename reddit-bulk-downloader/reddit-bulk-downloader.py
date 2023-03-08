@@ -3,14 +3,35 @@ import requests
 import time
 import re
 
+'''
+
+r/memes
+r/dankmemes
+r/AdviceAnimals
+r/terriblefacebookmemes
+r/youtubehaiku
+r/funny
+r/gifs
+r/whitepeopletwitter
+r/blackpeopletwitter
+r/wholesomememes
+r/PrequelMemes
+r/SequelMemes
+r/TrebuchetMemes
+r/HistoryMemes
+r/CursedComments
+r/showerthoughts
+
+'''
+
 # Define your custom user agent string
 my_user_agent = "My User Agent 1.0"
 headers = {"User-Agent": my_user_agent}
 
-subreddit = "Sham_Sharma_Show"
-limit = 5
+subreddit = "memes"
+limit = 20
 
-url = f"https://www.reddit.com/r/{subreddit}/new.json?limit={limit}"
+url = f"https://www.reddit.com/r/{subreddit}/top.json?limit={limit}"
 
 response = requests.get(url=url, headers=headers)
 
@@ -60,8 +81,6 @@ def video_download():
 
         ydl_opts = {
             'outtmpl': output_dir + f'/video_{subreddit}_{name}.%(ext)s',
-            'ffmpeg_location': 'bin/ffmpeg.exe',
-            'quiet': True
         }
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -75,4 +94,4 @@ def video_download():
 
 
 video_download()
-image_download()
+# image_download()
