@@ -3,55 +3,6 @@ import requests
 import time
 import re
 
-'''
-
-r/memes
-r/dankmemes
-r/AdviceAnimals
-r/terriblefacebookmemes
-r/youtubehaiku
-r/funny
-r/gifs
-r/whitepeopletwitter
-r/blackpeopletwitter
-r/wholesomememes
-r/PrequelMemes
-r/SequelMemes
-r/TrebuchetMemes
-r/HistoryMemes
-r/CursedComments
-r/showerthoughts
-
-'''
-
-# Define your custom user agent string
-my_user_agent = "My User Agent 1.0"
-headers = {"User-Agent": my_user_agent}
-
-subreddit = "memes"
-limit = 20
-
-url = f"https://www.reddit.com/r/{subreddit}/top.json?limit={limit}"
-
-response = requests.get(url=url, headers=headers)
-
-json_text = response.text
-
-# Define the regex pattern
-image_pattern = r"https://i\.redd\.it/\w+\.jpg"
-video_pattern = r"https:\/\/v\.redd\.it\/\w{13}"
-
-image_links = re.findall(image_pattern, json_text)
-video_links = re.findall(video_pattern, json_text)
-image_links = list(set(image_links))
-video_links = list(set(video_links))
-# print(image_links)
-# print(video_links)
-
-
-# Get the current Unix time
-# unix_time = int(time.time())
-
 
 def image_download():
     counter = 0
@@ -81,6 +32,7 @@ def video_download():
 
         ydl_opts = {
             'outtmpl': output_dir + f'/video_{subreddit}_{name}.%(ext)s',
+            'user_agent': my_user_agent
         }
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -93,5 +45,85 @@ def video_download():
     print(f"{counter} videos downloaded")
 
 
-video_download()
-# image_download()
+'''
+
+["memes",
+"dankmemes",
+"AdviceAnimals",
+"terriblefacebookmemes",
+"youtubehaiku",
+"funny",
+"gifs",
+"whitepeopletwitter",
+"blackpeopletwitter",
+"wholesomememes",
+"PrequelMemes",
+"SequelMemes",
+"TrebuchetMemes",
+"HistoryMemes",
+"CursedComments",
+"showerthoughts"]
+
+'''
+
+sub_list = ["memes",
+            "dankmemes",
+            "AdviceAnimals",
+            "terriblefacebookmemes",
+            "youtubehaiku",
+            "funny",
+            "gifs",
+            "whitepeopletwitter",
+            "blackpeopletwitter",
+            "wholesomememes",
+            "PrequelMemes",
+            "SequelMemes",
+            "TrebuchetMemes",
+            "HistoryMemes",
+            "CursedComments",
+            "showerthoughts"]
+
+# Define your custom user agent string
+my_user_agent = "your bot 0.1"
+headers = {"User-Agent": my_user_agent}
+
+for i in range(len(sub_list)):
+    if(i < 10):
+        print(f'0{i}. r/{sub_list[i]}')
+    else:
+        print(f'{i}. r/{sub_list[i]}')
+
+sub_number = int(input('subreddit: '))
+
+subreddit = sub_list[sub_number]
+limit = 200
+
+url = f"https://www.reddit.com/r/{subreddit}/new.json?limit={limit}"
+print('url: ',url)
+response = requests.get(url=url, headers=headers)
+
+json_text = response.text
+
+# Define the regex pattern
+image_pattern = r"https://i\.redd\.it/\w+\.jpg"
+video_pattern = r"https:\/\/v\.redd\.it\/\w{13}"
+
+image_links = re.findall(image_pattern, json_text)
+video_links = re.findall(video_pattern, json_text)
+image_links = list(set(image_links))
+video_links = list(set(video_links))
+# print(image_links)
+# print(video_links)
+
+
+number_of_videos = len(video_links)
+number_of_images = len(image_links)
+print(f"subreddit: r/{subreddit}")
+print(f"number of videos found: {number_of_videos}")
+print(f"number of images found: {number_of_images}")
+
+inputyn = str(input("[Y/n]"))
+
+if (inputyn == 'y' or inputyn == 'Y'):
+    video_download()
+    # image_download()
